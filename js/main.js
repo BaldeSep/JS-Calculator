@@ -12,7 +12,9 @@ calculatorButtonWrapper.querySelectorAll("p").forEach(button => {
 
 function getButtonInput(e) {
   if (this.dataset.type === "evaluate") {
-    evaluateExpression(expression);
+    let evaluatedExpression = evaluateExpression(expression);
+    updateExpression(evaluatedExpression);
+    updateDisplay(evaluatedExpression);
   } else if (this.dataset.type === "clear") {
     updateExpression("");
     updateDisplay("");
@@ -54,9 +56,6 @@ function evaluateExpression(expression) {
     }
   });
 
-  console.log(`Operators Stack: ${operatorsStack}`);
-  console.log(`Operands Stack: ${operandsStack}`);
-
   while (operatorsStack.length > 0) {
     let operand2 = operandsStack.pop();
     let operand1 = operandsStack.pop();
@@ -64,7 +63,7 @@ function evaluateExpression(expression) {
     operandsStack.push(eval);
   }
 
-  console.log(`Answer: ${operandsStack[0]}`);
+  return operandsStack.pop();
 }
 
 function checkMalformedExpression(expression) {
